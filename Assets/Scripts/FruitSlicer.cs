@@ -1,0 +1,117 @@
+using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+
+public class FruitSlicer : MonoBehaviour
+{
+    [Header("Slice Settings")]
+    public Sprite[] sliceSprites;
+
+    [Header("Physics Settings")]
+    public float explosionForce = 2f;
+    public float torqueForce = 2f;
+    public float lifetime = 1f;
+
+    private SpriteRenderer mainRenderer;
+    private Vector3 currentPosition; // Store the current position when sliced
+
+    void Start()
+    {
+        mainRenderer = GetComponent<SpriteRenderer>();
+    }
+
+    public void SliceFruit()
+    {
+        // CRITICAL: Capture the exact current position of the apple
+        currentPosition = transform.position;
+
+        Debug.Log($"SliceFruit called at position: {currentPosition}");
+
+        // Hide the original apple
+        if (mainRenderer != null)
+        {
+            mainRenderer.enabled = false;
+        }
+
+        // Create slices at the CURRENT position (not the original/starting position)
+        for (int i = 0; i < sliceSprites.Length; i++)
+        {
+            Debug.Log("Creating slice " + sliceSprites[i]);
+            if (sliceSprites[i] != null)
+            {
+                CreateSlice(sliceSprites[i], currentPosition);
+            }
+        }
+    }
+
+    private void CreateSlice(Sprite sliceSprite, Vector3 position)
+    {
+        // Create a new GameObject for the slice
+        GameObject slice = new GameObject("AppleSlice");
+
+        // Position at the EXACT location where the apple was when sliced
+        slice.transform.position = position;
+
+        // Add a sprite renderer
+        SpriteRenderer renderer = slice.AddComponent<SpriteRenderer>();
+        renderer.sprite = sliceSprite;
+
+        // Match the sorting layer and order
+        if (mainRenderer != null)
+        {
+            renderer.sortingLayerID = mainRenderer.sortingLayerID;
+            renderer.sortingOrder = mainRenderer.sortingOrder;
+        }
+
+        // Add physics
+        Rigidbody2D rb = slice.AddComponent<Rigidbody2D>();
+
+        // Apply random force and torque
+        Vector2 randomDirection = Random.insideUnitCircle.normalized;
+        rb.AddForce(randomDirection * explosionForce, ForceMode2D.Impulse);
+        rb.AddTorque(Random.Range(-torqueForce, torqueForce), ForceMode2D.Impulse);
+
+        // Ensure gravity is applied
+        rb.gravityScale = 1f;
+
+        // Log the slice creation
+        Debug.Log($"Created slice at position {position} with sprite {sliceSprite.name}");
+
+        // Destroy after lifetime
+        StartCoroutine(FadeAndDestroy(slice, renderer));
+    }
+
+    private IEnumerator FadeAndDestroy(GameObject slice, SpriteRenderer renderer)
+    {
+        // Wait for most of the lifetime
+        yield return new WaitForSeconds(lifetime * 0.7f);
+
+        // Fade out
+        float fadeTime = lifetime * 0.3f;
+        float startTime = Time.time;
+        Color startColor = renderer.color;
+
+        while (Time.time < startTime + fadeTime)
+        {
+            float t = (Time.time - startTime) / fadeTime;
+            Color newColor = startColor;
+            newColor.a = Mathf.Lerp(1f, 0f, t);
+            renderer.color = newColor;
+            yield return null;
+        }
+
+        Debug.Log("Destroying slice " + slice);
+
+        // Destroy the slice
+        Destroy(slice);
+    }
+
+    public void ResetFruit()
+    {
+        // Show the original apple again
+        if (mainRenderer != null)
+        {
+            mainRenderer.enabled = true;
+        }
+    }
+}

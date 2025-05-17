@@ -148,7 +148,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.25, y: 1.25, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1768880383}
@@ -243,7 +243,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.5
+  m_Radius: 0.46
 --- !u!114 &334042919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,7 +256,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22ef43510a609894c977a63b2e2ba7b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  appleTag: Fruit
+  fruitTag: Fruit
+  validColor: {r: 0, g: 1, b: 0, a: 1}
+  invalidColor: {r: 1, g: 0, b: 0, a: 1}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  colorFlashDuration: 0.2
+  targetFruit: {fileID: 1385864575}
 --- !u!1 &428564776
 GameObject:
   m_ObjectHideFlags: 0
@@ -301,8 +306,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecc95330ff04f61499975b346e92d31f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftFruit: {fileID: 1385864575}
-  rightFruit: {fileID: 1573398172}
+  minWaitTime: 1
+  maxWaitTime: 3
   fruits:
   - {fileID: 1385864575}
   - {fileID: 1573398172}
@@ -553,7 +558,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.5, y: 0, z: 1}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.92, y: 0.92, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1755368013}
@@ -569,8 +574,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1385864577}
   - component: {fileID: 1385864576}
-  - component: {fileID: 1385864578}
   - component: {fileID: 1385864579}
+  - component: {fileID: 1385864581}
   - component: {fileID: 1385864580}
   m_Layer: 0
   m_Name: leftFruit
@@ -643,48 +648,12 @@ Transform:
   m_GameObject: {fileID: 1385864575}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.5, y: 3, z: 0}
-  m_LocalScale: {x: 0.15, y: 0.15, z: 1}
+  m_LocalPosition: {x: -1.5, y: 2, z: 0}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &1385864578
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1385864575}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: -1
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 4.81
 --- !u!114 &1385864579
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -697,39 +666,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21bb6952f2766194eaf77b382c2fa9d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minWaitTime: 1
-  maxWaitTime: 3
   bottomWaitTime: 1
+  validResponseStartTime: 0.5
+  validResponseEndTime: 0.8
+  resetDelay: 1
   startOnAwake: 0
-  isMoving: 0
-  otherFruit: {fileID: 1573398172}
---- !u!50 &1385864580
-Rigidbody2D:
-  serializedVersion: 5
+  isAvailableForMovement: 1
+--- !u!114 &1385864580
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1385864575}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 572661aec84f27744908d4c72c3acd02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  appleSlicePrefabs:
+  - {fileID: 2745605467957016460, guid: 8031235947da2b1408395e881b4fc1dc, type: 3}
+  - {fileID: 8845185323085434481, guid: 28bbf9b8914f7a94ea7634913ca76c8b, type: 3}
+  - {fileID: 7815249220002935832, guid: f8116a2cdc52f9045aca997837094a1b, type: 3}
+  - {fileID: 3936792077564514170, guid: c399f6b9734e6cc4fb5d9b34af22c845, type: 3}
+  - {fileID: 3688058333890241311, guid: 08bff16b409a5474cb43d26d53b4e129, type: 3}
+  appleSliceSprites:
+  - {fileID: 5392500732562540186, guid: a715a74abc7498a4aadde344a18a9acb, type: 3}
+  - {fileID: 21300000, guid: 8e133733b8cb19b4e8e39b7cdedee5e7, type: 3}
+  - {fileID: 21300000, guid: b756709faa096cf449f3fbcc2b1eefaa, type: 3}
+  - {fileID: 21300000, guid: 943270008fc0db34a88bd499d59822f1, type: 3}
+  - {fileID: 21300000, guid: cd5c77fbb1aa4a540a6e6276e9f73d96, type: 3}
+--- !u!114 &1385864581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1385864575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d937ec5397d6f214ab05a6a48ce34e2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sliceSprites:
+  - {fileID: 21300000, guid: a715a74abc7498a4aadde344a18a9acb, type: 3}
+  - {fileID: 21300000, guid: 8e133733b8cb19b4e8e39b7cdedee5e7, type: 3}
+  - {fileID: 21300000, guid: b756709faa096cf449f3fbcc2b1eefaa, type: 3}
+  - {fileID: 21300000, guid: 943270008fc0db34a88bd499d59822f1, type: 3}
+  - {fileID: 21300000, guid: cd5c77fbb1aa4a540a6e6276e9f73d96, type: 3}
+  explosionForce: 5
+  torqueForce: 2
+  lifetime: 2
 --- !u!1 &1573398172
 GameObject:
   m_ObjectHideFlags: 0
@@ -740,8 +727,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1573398174}
   - component: {fileID: 1573398173}
-  - component: {fileID: 1573398175}
   - component: {fileID: 1573398176}
+  - component: {fileID: 1573398178}
   - component: {fileID: 1573398177}
   m_Layer: 0
   m_Name: rightFruit
@@ -814,48 +801,12 @@ Transform:
   m_GameObject: {fileID: 1573398172}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.5, y: 3, z: 0}
-  m_LocalScale: {x: 0.15, y: 0.15, z: 1}
+  m_LocalPosition: {x: 1.5, y: 2, z: 0}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &1573398175
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1573398172}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: -1
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 4.81
 --- !u!114 &1573398176
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -868,39 +819,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21bb6952f2766194eaf77b382c2fa9d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minWaitTime: 1
-  maxWaitTime: 3
   bottomWaitTime: 1
+  validResponseStartTime: 0.5
+  validResponseEndTime: 0.8
+  resetDelay: 1
   startOnAwake: 0
-  isMoving: 0
-  otherFruit: {fileID: 1385864575}
---- !u!50 &1573398177
-Rigidbody2D:
-  serializedVersion: 5
+  isAvailableForMovement: 1
+--- !u!114 &1573398177
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1573398172}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 572661aec84f27744908d4c72c3acd02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  appleSlicePrefabs:
+  - {fileID: 2745605467957016460, guid: 8031235947da2b1408395e881b4fc1dc, type: 3}
+  - {fileID: 8845185323085434481, guid: 28bbf9b8914f7a94ea7634913ca76c8b, type: 3}
+  - {fileID: 7815249220002935832, guid: f8116a2cdc52f9045aca997837094a1b, type: 3}
+  - {fileID: 3936792077564514170, guid: c399f6b9734e6cc4fb5d9b34af22c845, type: 3}
+  - {fileID: 3688058333890241311, guid: 08bff16b409a5474cb43d26d53b4e129, type: 3}
+  appleSliceSprites:
+  - {fileID: 5392500732562540186, guid: a715a74abc7498a4aadde344a18a9acb, type: 3}
+  - {fileID: 21300000, guid: 8e133733b8cb19b4e8e39b7cdedee5e7, type: 3}
+  - {fileID: 21300000, guid: b756709faa096cf449f3fbcc2b1eefaa, type: 3}
+  - {fileID: 21300000, guid: 943270008fc0db34a88bd499d59822f1, type: 3}
+  - {fileID: 21300000, guid: cd5c77fbb1aa4a540a6e6276e9f73d96, type: 3}
+--- !u!114 &1573398178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1573398172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d937ec5397d6f214ab05a6a48ce34e2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sliceSprites:
+  - {fileID: 21300000, guid: a715a74abc7498a4aadde344a18a9acb, type: 3}
+  - {fileID: 21300000, guid: 8e133733b8cb19b4e8e39b7cdedee5e7, type: 3}
+  - {fileID: 21300000, guid: b756709faa096cf449f3fbcc2b1eefaa, type: 3}
+  - {fileID: 21300000, guid: 943270008fc0db34a88bd499d59822f1, type: 3}
+  - {fileID: 21300000, guid: cd5c77fbb1aa4a540a6e6276e9f73d96, type: 3}
+  explosionForce: 5
+  torqueForce: 2
+  lifetime: 2
 --- !u!1 &1689955732
 GameObject:
   m_ObjectHideFlags: 0
@@ -1033,8 +1002,8 @@ Transform:
   m_GameObject: {fileID: 1755368012}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.25, y: 1.25, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 955754000}
@@ -1129,7 +1098,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.5
+  m_Radius: 0.46
 --- !u!114 &1755368016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1142,7 +1111,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22ef43510a609894c977a63b2e2ba7b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  appleTag: Fruit
+  fruitTag: Fruit
+  validColor: {r: 0, g: 1, b: 0, a: 1}
+  invalidColor: {r: 1, g: 0, b: 0, a: 1}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  colorFlashDuration: 0.2
+  targetFruit: {fileID: 1573398172}
 --- !u!1 &1768880382
 GameObject:
   m_ObjectHideFlags: 0
@@ -1169,7 +1143,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.5, y: 0, z: 1}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.92, y: 0.92, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 334042916}

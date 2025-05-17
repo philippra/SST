@@ -1,37 +1,103 @@
 using UnityEngine;
+
 public class ResponseCircle : MonoBehaviour
 {
     [Header("Detection Settings")]
-    public string appleTag = "Fruit"; // Set this to the tag of your apple objects
+    public string fruitTag = "Fruit"; // Still useful for visual identification
 
-    // This method is called when another collider enters this trigger collider
-    void OnTriggerEnter2D(Collider2D other)
+    [Header("Response Feedback")]
+    public Color validColor = Color.green;
+    public Color invalidColor = Color.red;
+    public Color normalColor = Color.white;
+    public float colorFlashDuration = 0.2f;
+
+    [Header("Fruit Reference")]
+    public GameObject targetFruit; // Direct reference to the fruit this circle is responsible for
+
+    private SpriteRenderer spriteRenderer;
+    private Mover fruitMover;
+
+    void Start()
     {
-        // Check if the object that entered has the apple tag
-        if (other.gameObject.CompareTag(appleTag))
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer == null)
         {
-            Debug.Log("Apple contacted the response circle!");
+            Debug.LogError("ResponseCircle is missing a SpriteRenderer component!");
+        }
+        else
+        {
+            spriteRenderer.color = normalColor;
+        }
 
-            // You can also access the specific apple object if needed
-            Debug.Log("Apple name: " + other.gameObject.name);
+        // Get the Mover component directly from the targetFruit
+        if (targetFruit != null)
+        {
+            fruitMover = targetFruit.GetComponent<Mover>();
+            if (fruitMover == null)
+            {
+                Debug.LogError($"Target fruit {targetFruit.name} is missing a Mover component!");
+            }
+        }
+        else
+        {
+            Debug.LogError("No target fruit assigned to ResponseCircle!");
         }
     }
 
-    // Optional: Detect when apple exits the circle
-    void OnTriggerExit2D(Collider2D other)
+    void Update()
     {
-        if (other.gameObject.CompareTag(appleTag))
+        // Check for mouse click
+        if (Input.GetMouseButtonDown(0)) // Left mouse button
         {
-            Debug.Log("Apple left the response circle!");
+            // Check if the click is within this circle
+            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Collider2D collider = Physics2D.OverlapPoint(mousePosition);
+
+            if (collider != null && collider.gameObject == gameObject)
+            {
+                HandleClick();
+            }
         }
     }
 
-    // Optional: Detect while apple is staying in the circle
-    void OnTriggerStay2D(Collider2D other)
+    void HandleClick()
     {
-        if (other.gameObject.CompareTag(appleTag))
+        if (fruitMover != null)
         {
-            //Debug.Log("Apple is staying in the response circle!");
+            if (fruitMover.IsInValidResponseWindow())
+            {
+                // Valid response within the time window
+                Debug.Log($"Valid response for {targetFruit.name}");
+                fruitMover.RegisterResponse();
+                FlashColor(validColor);
+            }
+            else
+            {
+                // Response outside the valid window
+                Debug.Log($"Invalid response timing for {targetFruit.name}");
+                FlashColor(invalidColor);
+            }
         }
+        else
+        {
+            // No fruit assigned or Mover component missing
+            Debug.Log("No fruit to respond to");
+            FlashColor(invalidColor);
+        }
+    }
+
+    void FlashColor(Color flashColor)
+    {
+        if (spriteRenderer != null)
+        {
+            StartCoroutine(FlashColorCoroutine(flashColor));
+        }
+    }
+
+    System.Collections.IEnumerator FlashColorCoroutine(Color flashColor)
+    {
+        spriteRenderer.color = flashColor;
+        yield return new WaitForSeconds(colorFlashDuration);
+        spriteRenderer.color = normalColor;
     }
 }

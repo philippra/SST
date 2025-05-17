@@ -3,30 +3,71 @@ using System.Collections;
 
 public class Mover : MonoBehaviour
 {
-    private float moveSpeed = 4f;
+    private float moveSpeed = 3.07f; // For 1300 milliseconds (1.3 seconds) falling duration
+
     [Header("Timing Settings")]
-    public float minWaitTime = 1f;
-    public float maxWaitTime = 3f;
     public float bottomWaitTime = 1f;
+    [Header("Response Settings")]
+    public float validResponseStartTime = 0.5f;  // 500ms after falling
+    public float validResponseEndTime = 0.8f;    // 800ms after falling
+    public float resetDelay = 1f;
     [Header("Auto Start")]
-    public bool startOnAwake = false; // Add option to control auto-start
+    public bool startOnAwake = false;
 
     private Camera mainCamera;
     private Vector2 topPosition;
     private Vector2 bottomPosition;
-    public bool isMoving = false;
-    private Coroutine movementCoroutine; // Track the movement coroutine
+    private float fallingStartTime = 0f;
+    private bool isInValidResponseWindow = false;
+    private bool responseRegistered = false;
 
-    [Header("Other fruit")]
-    public GameObject otherFruit;
 
-    private float startTimeFall = 0f;
+    private bool _isMoving = false;
+
+    public bool isMoving
+    {
+        get => _isMoving;
+        private set
+        {
+            if (_isMoving != value)
+            {
+                _isMoving = value;
+                EventManager.TriggerEvent(EventManager.EventType.FruitMovementChanged, gameObject, value);
+            }
+        }
+    }
+
+    private bool _isBusy = false;
+    public bool isBusy
+    {
+        get => _isBusy;
+        private set
+        {
+            if (_isBusy != value)
+            {
+                _isBusy = value;
+                EventManager.TriggerEvent(EventManager.EventType.FruitBusyStateChanged, gameObject, value);
+            }
+        }
+    }
+
+    private Coroutine movementCoroutine;
+    private Coroutine responseWindowCoroutine;
+
+    [HideInInspector]
+    public bool isAvailableForMovement = true;
+
+    private FruitSlicer fruitSlicer;
+
     void Start()
     {
         mainCamera = Camera.main;
+
+        // Get the FruitSlicer component
+        fruitSlicer = GetComponent<FruitSlicer>();
+
         SetupPositions();
 
-        // Optional auto-start
         if (startOnAwake)
         {
             StartMovement();
@@ -35,44 +76,82 @@ public class Mover : MonoBehaviour
 
     void SetupPositions()
     {
-        Vector2 screenBounds = mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, mainCamera.transform.position.z));
-        topPosition = new Vector2(transform.position.x, screenBounds.y - 2f);
-        bottomPosition = new Vector2(transform.position.x, -screenBounds.y + 2f);
+        // Update to use the exact positions specified (2 to -2)
+        topPosition = new Vector2(transform.position.x, 2f);
+        bottomPosition = new Vector2(transform.position.x, -2f);
         transform.position = topPosition;
     }
 
-    // Convert MovementCycle to a coroutine
     IEnumerator MovementCycle()
     {
-        while (!otherFruit.GetComponent<Mover>().isMoving) // Loop indefinitely
+        isAvailableForMovement = false;
+        isBusy = true;
+
+        // Move down to bottom
+        Debug.Log($"{gameObject.name} starting to move down");
+        fallingStartTime = Time.time;
+        responseRegistered = false;
+
+        if (responseWindowCoroutine != null)
         {
-            // Wait at top for random time
-            float randomWait = Random.Range(minWaitTime, maxWaitTime);
-            yield return new WaitForSeconds(randomWait);
-            Debug.Log("Random wait over.");
-
-            // Move down to bottom
-            yield return StartCoroutine(MoveToPosition(bottomPosition));
-            Debug.Log("Falling phase over.");
-
-            // Wait at bottom
-            yield return new WaitForSeconds(bottomWaitTime);
-            Debug.Log("Bottom wait over.");
-
-            // Reset to top position
-            ResetToTop();
-            Debug.Log("Reset to top position.");
+            StopCoroutine(responseWindowCoroutine);
         }
+        responseWindowCoroutine = StartCoroutine(TrackResponseWindow());
+
+        yield return StartCoroutine(MoveToPosition(bottomPosition));
+
+        // Only do the bottom wait if no response was registered
+        if (!responseRegistered)
+        {
+            // Wait at bottom
+            Debug.Log($"{gameObject.name} waiting at bottom for {bottomWaitTime} seconds");
+            yield return new WaitForSeconds(bottomWaitTime);
+        }
+
+
+        if (!responseRegistered)
+        {
+            // Reset to top position after no response
+            Debug.Log($"{gameObject.name} resetting to top");
+            ResetToTop();
+        }
+
+        Debug.Log($"{gameObject.name} movement cycle complete, clearing coroutine");
+        movementCoroutine = null;
+
+        // Now it's available again
+        isAvailableForMovement = true;
+        isBusy = false;
+    }
+
+    IEnumerator TrackResponseWindow()
+    {
+        // Wait until response window starts
+        float timeToWait = validResponseStartTime;
+        yield return new WaitForSeconds(timeToWait);
+
+        // Enter valid response window
+        isInValidResponseWindow = true;
+        EventManager.TriggerEvent(EventManager.EventType.ValidResponseWindowChanged, gameObject, true);
+        Debug.Log($"{gameObject.name} entered valid response window at {Time.time - fallingStartTime:F2}s after falling");
+
+        // Wait until response window ends
+        timeToWait = validResponseEndTime - validResponseStartTime;
+        yield return new WaitForSeconds(timeToWait);
+
+        // Exit valid response window
+        isInValidResponseWindow = false;
+        EventManager.TriggerEvent(EventManager.EventType.ValidResponseWindowChanged, gameObject, false);
+        Debug.Log($"{gameObject.name} exited valid response window at {Time.time - fallingStartTime:F2}s after falling");
     }
 
     IEnumerator MoveToPosition(Vector2 targetPosition)
     {
         Debug.Log("MoveToPosition started.");
         isMoving = true;
-        startTimeFall = Time.time;
-        while (Vector2.Distance(transform.position, targetPosition) > 0.01f)
+
+        while (Vector2.Distance(transform.position, targetPosition) > 0.01f && !responseRegistered)
         {
-            //Debug.Log(Time.time - startTimeFall);
             transform.position = Vector2.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
             if (this.name == "leftFruit")
                 transform.Rotate(0f, 0f, 15f * Time.deltaTime);
@@ -81,18 +160,27 @@ public class Mover : MonoBehaviour
             yield return null;
         }
 
-        transform.position = targetPosition;
+        if (!responseRegistered)
+        {
+            transform.position = targetPosition;
+        }
+
         isMoving = false;
         Debug.Log("MoveToPosition completed.");
     }
 
     public void StartMovement()
     {
-        if (movementCoroutine == null && !otherFruit.GetComponent<Mover>().isMoving) // Only start if not already running
+        if (isAvailableForMovement && movementCoroutine == null)
         {
-            isMoving = true;
-            Debug.Log("Starting Movement.");
+            Debug.Log($"{gameObject.name} starting movement cycle");
+            isAvailableForMovement = false;
             movementCoroutine = StartCoroutine(MovementCycle());
+        }
+        else
+        {
+            Debug.LogWarning($"{gameObject.name} is not available for movement! " +
+                             $"Available={isAvailableForMovement}, Coroutine={movementCoroutine != null}");
         }
     }
 
@@ -100,18 +188,88 @@ public class Mover : MonoBehaviour
     {
         if (movementCoroutine != null)
         {
+            Debug.Log($"{gameObject.name} stopping existing movement coroutine");
             StopCoroutine(movementCoroutine);
             movementCoroutine = null;
         }
+
+        if (responseWindowCoroutine != null)
+        {
+            StopCoroutine(responseWindowCoroutine);
+            responseWindowCoroutine = null;
+        }
+
         isMoving = false;
-        Debug.Log("Movement stopped.");
+        isInValidResponseWindow = false;
+        isBusy = false;
+        isAvailableForMovement = true;
+        Debug.Log($"{gameObject.name} movement stopped");
     }
 
-    // Optional: Method to reset to top position
+    public void RegisterResponse()
+    {
+        if (isInValidResponseWindow && !responseRegistered)
+        {
+            Debug.Log($"{gameObject.name} response registered at {Time.time - fallingStartTime:F2}s after falling");
+            responseRegistered = true;
+
+            // Use the position-aware slicer
+            FruitSlicer slicer = GetComponent<FruitSlicer>();
+            if (slicer != null)
+            {
+                // This will use the current position of the apple
+                Debug.Log($"Slicing fruit at current position: {transform.position}");
+                slicer.SliceFruit();
+            }
+            else
+            {
+                // Fallback to the old behavior
+                Debug.Log("No position-aware slicer found, just hiding sprite");
+                GetComponent<SpriteRenderer>().enabled = false;
+            }
+
+            // Start the reset timer
+            StartCoroutine(ResetAfterResponse());
+        }
+        else if (isMoving && !isInValidResponseWindow)
+        {
+            Debug.Log($"{gameObject.name} response MISSED - outside window at {Time.time - fallingStartTime:F2}s after falling");
+        }
+    }
+
+    IEnumerator ResetAfterResponse()
+    {
+        // Wait for the reset delay
+        yield return new WaitForSeconds(resetDelay);
+        Debug.Log("Resetting after response");
+        // Reset position and make visible again
+        ResetToTop();
+    }
+
     public void ResetToTop()
     {
+        Debug.Log($"{gameObject.name} resetting to top, coroutine status: {(movementCoroutine != null ? "active" : "null")}");
         StopMovement();
         transform.position = topPosition;
         transform.eulerAngles = new Vector3(0f, 0f, 0f);
+
+        // Reset the position-aware slicer if available
+        FruitSlicer slicer = GetComponent<FruitSlicer>();
+        if (slicer != null)
+        {
+            slicer.ResetFruit();
+        }
+        else
+        {
+            GetComponent<SpriteRenderer>().enabled = true;
+        }
+
+        isAvailableForMovement = true;
+    }
+
+    // Public method to check if this fruit is currently in its valid response window
+    public bool IsInValidResponseWindow()
+    {
+        return isInValidResponseWindow;
     }
 }
