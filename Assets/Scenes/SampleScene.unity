@@ -670,6 +670,9 @@ MonoBehaviour:
   validResponseStartTime: 0.5
   validResponseEndTime: 0.8
   resetDelay: 1
+  stopSignalDelay: 250
+  normalAppleSprite: {fileID: -7832214784768987486, guid: 78a615ea3624c2744b80777822991e17, type: 3}
+  badAppleSprite: {fileID: -5478901005606715666, guid: 62a6fa932d9fb0f4fbc2ccc8a1567683, type: 3}
   startOnAwake: 0
   isAvailableForMovement: 1
 --- !u!114 &1385864580
@@ -823,6 +826,9 @@ MonoBehaviour:
   validResponseStartTime: 0.5
   validResponseEndTime: 0.8
   resetDelay: 1
+  stopSignalDelay: 250
+  normalAppleSprite: {fileID: -7832214784768987486, guid: 78a615ea3624c2744b80777822991e17, type: 3}
+  badAppleSprite: {fileID: -5478901005606715666, guid: 62a6fa932d9fb0f4fbc2ccc8a1567683, type: 3}
   startOnAwake: 0
   isAvailableForMovement: 1
 --- !u!114 &1573398177

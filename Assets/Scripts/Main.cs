@@ -14,6 +14,8 @@ public class Main : MonoBehaviour
     private HashSet<GameObject> busyFruits = new HashSet<GameObject>();
     // Track which fruits are in their valid response window
     private HashSet<GameObject> responseFruits = new HashSet<GameObject>();
+    // tracks which fruits currently have running slice animations
+    private HashSet<GameObject> animatingFruits = new HashSet<GameObject>();
 
     void Start()
     {
@@ -21,6 +23,7 @@ public class Main : MonoBehaviour
         EventManager.Subscribe(EventManager.EventType.FruitMovementChanged, OnFruitMovementChanged);
         EventManager.Subscribe(EventManager.EventType.FruitBusyStateChanged, OnFruitBusyChanged);
         EventManager.Subscribe(EventManager.EventType.ValidResponseWindowChanged, OnValidResponseWindowChanged);
+        EventManager.Subscribe(EventManager.EventType.SliceAnimationStateChanged, OnAnimationStateChanged);
 
         // Make sure all fruits have the correct tag
         foreach (var fruit in fruits)
@@ -46,6 +49,7 @@ public class Main : MonoBehaviour
         EventManager.Unsubscribe(EventManager.EventType.FruitMovementChanged, OnFruitMovementChanged);
         EventManager.Unsubscribe(EventManager.EventType.FruitBusyStateChanged, OnFruitBusyChanged);
         EventManager.Unsubscribe(EventManager.EventType.ValidResponseWindowChanged, OnValidResponseWindowChanged);
+        EventManager.Unsubscribe(EventManager.EventType.SliceAnimationStateChanged, OnAnimationStateChanged);
     }
 
     IEnumerator InitialMovementDelay()
@@ -109,15 +113,40 @@ public class Main : MonoBehaviour
         }
     }
 
+    void OnAnimationStateChanged(GameObject fruit, object animationObj)
+    {
+        bool animationRunning = (bool)animationObj;
+        if (animationRunning)
+        {
+            animatingFruits.Add(fruit);
+            Debug.Log($"{fruit.name} has an animation running.");
+        }
+        else
+        {
+            if (animatingFruits.Contains(fruit))
+            {
+                animatingFruits.Remove(fruit);
+                Debug.Log($"{fruit.name} has no animation running.");
+
+                StartCoroutine(CheckAllFruitsComplete());
+            }
+
+        }
+    }
+
     IEnumerator CheckAllFruitsComplete()
     {
         // Wait a frame to ensure all state changes have propagated
         yield return null;
 
-        if (busyFruits.Count == 0)
+        if (busyFruits.Count == 0 && animatingFruits.Count == 0)
         {
             Debug.Log("All fruit movement cycles complete. Starting new fruit movement.");
             StartFruitMovement();
+        }
+        else
+        {
+            Debug.Log($"Waiting for completion - Busy fruits: {busyFruits.Count}, Animating fruits: {animatingFruits.Count}");
         }
     }
 

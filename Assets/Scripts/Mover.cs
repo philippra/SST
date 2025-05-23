@@ -11,6 +11,11 @@ public class Mover : MonoBehaviour
     public float validResponseStartTime = 0.5f;  // 500ms after falling
     public float validResponseEndTime = 0.8f;    // 800ms after falling
     public float resetDelay = 1f;
+    [Header("SSD settings")]
+    public int stopSignalDelay = 250;
+    [Header("Sprite Settings")]
+    public Sprite normalAppleSprite;
+    public Sprite badAppleSprite;
     [Header("Auto Start")]
     public bool startOnAwake = false;
 
@@ -20,7 +25,8 @@ public class Mover : MonoBehaviour
     private float fallingStartTime = 0f;
     private bool isInValidResponseWindow = false;
     private bool responseRegistered = false;
-
+    private bool isStopTrial = false;
+    private bool stopSignalShown = false;
 
     private bool _isMoving = false;
 
@@ -53,11 +59,13 @@ public class Mover : MonoBehaviour
 
     private Coroutine movementCoroutine;
     private Coroutine responseWindowCoroutine;
+    private Coroutine stopSignalCoroutine;
 
     [HideInInspector]
     public bool isAvailableForMovement = true;
 
     private FruitSlicer fruitSlicer;
+    private SpriteRenderer spriteRenderer;
 
     void Start()
     {
@@ -65,6 +73,13 @@ public class Mover : MonoBehaviour
 
         // Get the FruitSlicer component
         fruitSlicer = GetComponent<FruitSlicer>();
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
+
+        if (normalAppleSprite == null && spriteRenderer != null)
+        {
+            normalAppleSprite = spriteRenderer.sprite;
+        }
 
         SetupPositions();
 
@@ -87,8 +102,12 @@ public class Mover : MonoBehaviour
         isAvailableForMovement = false;
         isBusy = true;
 
+        isStopTrial = (Random.Range(0.0f, 1.0f) <= 0.35f);
+        stopSignalShown = false;
+
         // Move down to bottom
-        Debug.Log($"{gameObject.name} starting to move down");
+        Debug.Log($"{gameObject.name} starting to move down - Stop trial: {isStopTrial}");
+
         fallingStartTime = Time.time;
         responseRegistered = false;
 
@@ -98,11 +117,25 @@ public class Mover : MonoBehaviour
         }
         responseWindowCoroutine = StartCoroutine(TrackResponseWindow());
 
+        if (isStopTrial)
+        {
+            if (stopSignalCoroutine != null)
+            {
+                StopCoroutine(stopSignalCoroutine);
+            }
+            stopSignalCoroutine = StartCoroutine(TrackStopSignalDelay());
+        }
+
         yield return StartCoroutine(MoveToPosition(bottomPosition));
 
         // Only do the bottom wait if no response was registered
         if (!responseRegistered)
         {
+            if (isStopTrial && stopSignalDelay < 500)
+            {
+                stopSignalDelay += 50;
+                Debug.Log($"Stop signal delay is now {stopSignalDelay}ms");
+            }
             // Wait at bottom
             Debug.Log($"{gameObject.name} waiting at bottom for {bottomWaitTime} seconds");
             yield return new WaitForSeconds(bottomWaitTime);
@@ -122,6 +155,20 @@ public class Mover : MonoBehaviour
         // Now it's available again
         isAvailableForMovement = true;
         isBusy = false;
+    }
+
+    IEnumerator TrackStopSignalDelay()
+    {
+        float delayInSeconds = stopSignalDelay / 1000f;
+        yield return new WaitForSeconds(delayInSeconds);
+
+        if (!responseRegistered && spriteRenderer != null && badAppleSprite != null)
+        {
+            spriteRenderer.sprite = badAppleSprite;
+            stopSignalShown = true;
+            Debug.Log($"{gameObject.name} stop signal shown - apple turned bad after {stopSignalDelay}ms");
+        }
+
     }
 
     IEnumerator TrackResponseWindow()
@@ -199,6 +246,12 @@ public class Mover : MonoBehaviour
             responseWindowCoroutine = null;
         }
 
+        if (stopSignalCoroutine != null)
+        {
+            StopCoroutine(stopSignalCoroutine);
+            stopSignalCoroutine = null;
+        }
+
         isMoving = false;
         isInValidResponseWindow = false;
         isBusy = false;
@@ -211,6 +264,25 @@ public class Mover : MonoBehaviour
         if (isInValidResponseWindow && !responseRegistered)
         {
             Debug.Log($"{gameObject.name} response registered at {Time.time - fallingStartTime:F2}s after falling");
+            
+            if (isStopTrial && stopSignalShown)
+            {
+                Debug.Log($"{gameObject.name} INCORRECT RESPONSE - should have stopped after seeing bad apple!");
+                stopSignalDelay = stopSignalDelay > 0 ? stopSignalDelay-50 : 0;
+                Debug.Log($"Stop signal delay is now {stopSignalDelay}ms");
+            }
+            else if (isStopTrial && !stopSignalShown)
+            {
+                Debug.Log($"{gameObject.name} PREMATURE INCORRECT RESPONSE - did not wait until apple turned brown.");
+                stopSignalDelay = stopSignalDelay > 0 ? stopSignalDelay - 50 : 0;
+                Debug.Log($"Stop signal delay is now {stopSignalDelay}ms");
+            }
+            else
+            {
+                Debug.Log($"{gameObject.name} correct response on go trial");
+            }
+
+
             responseRegistered = true;
 
             // Use the position-aware slicer
@@ -252,6 +324,11 @@ public class Mover : MonoBehaviour
         StopMovement();
         transform.position = topPosition;
         transform.eulerAngles = new Vector3(0f, 0f, 0f);
+
+        if (spriteRenderer != null && normalAppleSprite != null)
+        {
+            spriteRenderer.sprite = normalAppleSprite;
+        }
 
         // Reset the position-aware slicer if available
         FruitSlicer slicer = GetComponent<FruitSlicer>();

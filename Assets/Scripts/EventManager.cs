@@ -12,6 +12,7 @@ public static class EventManager
         FruitBusyStateChanged,
         ValidResponseWindowChanged,
         ResponseRegistered,
+        SliceAnimationStateChanged,
         GameStateChanged
     }
 

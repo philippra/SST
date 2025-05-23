@@ -15,6 +15,22 @@ public class FruitSlicer : MonoBehaviour
     private SpriteRenderer mainRenderer;
     private Vector3 currentPosition; // Store the current position when sliced
 
+    private bool _animationRunning = false;
+    private int activeSliceCount = 0;
+
+    public bool animationRunning
+    {
+        get => _animationRunning;
+        private set
+        {
+            if (_animationRunning != value)
+            {
+                _animationRunning = value;
+                EventManager.TriggerEvent(EventManager.EventType.SliceAnimationStateChanged, gameObject, value);
+            }
+        }
+    }
+
     void Start()
     {
         mainRenderer = GetComponent<SpriteRenderer>();
@@ -26,6 +42,9 @@ public class FruitSlicer : MonoBehaviour
         currentPosition = transform.position;
 
         Debug.Log($"SliceFruit called at position: {currentPosition}");
+
+        animationRunning = true;
+        activeSliceCount = 0;
 
         // Hide the original apple
         if (mainRenderer != null)
@@ -40,6 +59,7 @@ public class FruitSlicer : MonoBehaviour
             if (sliceSprites[i] != null)
             {
                 CreateSlice(sliceSprites[i], currentPosition);
+                activeSliceCount++;
             }
         }
     }
@@ -104,6 +124,13 @@ public class FruitSlicer : MonoBehaviour
 
         // Destroy the slice
         Destroy(slice);
+
+        activeSliceCount--;
+        if(activeSliceCount <= 0)
+        {
+            Debug.Log("All slices destroyed, animation complete");
+            animationRunning = false;
+        }
     }
 
     public void ResetFruit()
@@ -113,5 +140,8 @@ public class FruitSlicer : MonoBehaviour
         {
             mainRenderer.enabled = true;
         }
+
+        animationRunning = false;
+        activeSliceCount = 0;
     }
 }
