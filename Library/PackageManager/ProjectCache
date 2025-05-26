@@ -1,25 +1,25 @@
 m_ProjectFiles:
   m_ManifestFileStatus:
-    m_FilePath: D:/Unity/SST 2025-05-16_13-20-36/Packages/manifest.json
+    m_FilePath: C:/Users/Philipp/SST/Packages/manifest.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638830230835329265
-    m_Hash: 2992786895
+      ticks: 638829916393908328
+    m_Hash: 1689777783
   m_LockFileStatus:
-    m_FilePath: D:/Unity/SST 2025-05-16_13-20-36/Packages/packages-lock.json
+    m_FilePath: C:/Users/Philipp/SST/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638830230835329265
-    m_Hash: 36803170
+      ticks: 638829916394002348
+    m_Hash: 2638445335
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_LocalPackages:
   m_LocalFileStatus: []
-m_ProjectPath: D:/Unity/SST 2025-05-16_13-20-36/Packages
+m_ProjectPath: C:/Users/Philipp/SST/Packages
 m_EditorVersion: 6000.0.49f1 (840e0a9776d9)
 m_ResolvedPackages:
 - packageId: com.unity.collab-proxy@2.8.2
@@ -27,7 +27,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 2.8.2
   source: 1
-  resolvedPath: D:\Unity\SST 2025-05-16_13-20-36\Library\PackageCache\com.unity.collab-proxy@c854d1f7d97f
+  resolvedPath: C:\Users\Philipp\SST\Library\PackageCache\com.unity.collab-proxy@c854d1f7d97f
   assetPath: Packages/com.unity.collab-proxy
   name: com.unity.collab-proxy
   displayName: Version Control
@@ -191,7 +191,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 2.0.1
   source: 2
-  resolvedPath: D:\Unity\SST 2025-05-16_13-20-36\Library\PackageCache\com.unity.feature.2d@dd1ea8910f12
+  resolvedPath: C:\Users\Philipp\SST\Library\PackageCache\com.unity.feature.2d@dd1ea8910f12
   assetPath: Packages/com.unity.feature.2d
   name: com.unity.feature.2d
   displayName: 2D
@@ -325,7 +325,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: D:\Unity\SST 2025-05-16_13-20-36\Library\PackageCache\com.unity.feature.mobile@00f8a2b6a6fb
+  resolvedPath: C:\Users\Philipp\SST\Library\PackageCache\com.unity.feature.mobile@00f8a2b6a6fb
   assetPath: Packages/com.unity.feature.mobile
   name: com.unity.feature.mobile
   displayName: Mobile
@@ -412,7 +412,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 3.0.36
   source: 1
-  resolvedPath: D:\Unity\SST 2025-05-16_13-20-36\Library\PackageCache\com.unity.ide.rider@4d374c7eb6db
+  resolvedPath: C:\Users\Philipp\SST\Library\PackageCache\com.unity.ide.rider@4d374c7eb6db
   assetPath: Packages/com.unity.ide.rider
   name: com.unity.ide.rider
   displayName: JetBrains Rider Editor
@@ -530,7 +530,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 2.0.23
   source: 1
-  resolvedPath: D:\Unity\SST 2025-05-16_13-20-36\Library\PackageCache\com.unity.ide.visualstudio@198cdf337d13
+  resolvedPath: C:\Users\Philipp\SST\Library\PackageCache\com.unity.ide.visualstudio@198cdf337d13
   assetPath: Packages/com.unity.ide.visualstudio
   name: com.unity.ide.visualstudio
   displayName: Visual Studio Editor
@@ -636,7 +636,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.14.0
   source: 1
-  resolvedPath: D:\Unity\SST 2025-05-16_13-20-36\Library\PackageCache\com.unity.inputsystem@7fe8299111a7
+  resolvedPath: C:\Users\Philipp\SST\Library\PackageCache\com.unity.inputsystem@7fe8299111a7
   assetPath: Packages/com.unity.inputsystem
   name: com.unity.inputsystem
   displayName: Input System
@@ -785,7 +785,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: D:\Unity\SST 2025-05-16_13-20-36\Library\PackageCache\com.unity.multiplayer.center@f3fb577b3546
+  resolvedPath: C:\Users\Philipp\SST\Library\PackageCache\com.unity.multiplayer.center@f3fb577b3546
   assetPath: Packages/com.unity.multiplayer.center
   name: com.unity.multiplayer.center
   displayName: Multiplayer Center
@@ -875,7 +875,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 17.0.4
   source: 2
-  resolvedPath: D:\Unity\SST 2025-05-16_13-20-36\Library\PackageCache\com.unity.render-pipelines.universal@fd2e729c5297
+  resolvedPath: C:\Users\Philipp\SST\Library\PackageCache\com.unity.render-pipelines.universal@fd2e729c5297
   assetPath: Packages/com.unity.render-pipelines.universal
   name: com.unity.render-pipelines.universal
   displayName: Universal Render Pipeline
@@ -1037,7 +1037,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.8.7
   source: 1
-  resolvedPath: D:\Unity\SST 2025-05-16_13-20-36\Library\PackageCache\com.unity.timeline@c58b4ee65782
+  resolvedPath: C:\Users\Philipp\SST\Library\PackageCache\com.unity.timeline@c58b4ee65782
   assetPath: Packages/com.unity.timeline
   name: com.unity.timeline
   displayName: Timeline
@@ -1223,7 +1223,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 2.0.0
   source: 2
-  resolvedPath: D:\Unity\SST 2025-05-16_13-20-36\Library\PackageCache\com.unity.ugui@9b7e7eef789d
+  resolvedPath: C:\Users\Philipp\SST\Library\PackageCache\com.unity.ugui@9b7e7eef789d
   assetPath: Packages/com.unity.ugui
   name: com.unity.ugui
   displayName: Unity UI
@@ -1315,7 +1315,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.9.6
   source: 1
-  resolvedPath: D:\Unity\SST 2025-05-16_13-20-36\Library\PackageCache\com.unity.visualscripting@7dcdc439b230
+  resolvedPath: C:\Users\Philipp\SST\Library\PackageCache\com.unity.visualscripting@7dcdc439b230
   assetPath: Packages/com.unity.visualscripting
   name: com.unity.visualscripting
   displayName: Visual Scripting
@@ -1363,9 +1363,11 @@ m_ResolvedPackages:
     - 1.9.4
     - 1.9.5
     - 1.9.6
+    - 1.9.7
     compatible:
     - 1.9.6
-    recommended: 1.9.6
+    - 1.9.7
+    recommended: 1.9.7
     deprecated:
     - 1.8.0-pre.1
   dependencies:
@@ -3864,7 +3866,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 17.0.4
   source: 2
-  resolvedPath: D:\Unity\SST 2025-05-16_13-20-36\Library\PackageCache\com.unity.render-pipelines.core@ffbbc1b441e3
+  resolvedPath: C:\Users\Philipp\SST\Library\PackageCache\com.unity.render-pipelines.core@ffbbc1b441e3
   assetPath: Packages/com.unity.render-pipelines.core
   name: com.unity.render-pipelines.core
   displayName: Scriptable Render Pipeline Core
@@ -4078,7 +4080,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 17.0.4
   source: 2
-  resolvedPath: D:\Unity\SST 2025-05-16_13-20-36\Library\PackageCache\com.unity.shadergraph@3b066f00f1c5
+  resolvedPath: C:\Users\Philipp\SST\Library\PackageCache\com.unity.shadergraph@3b066f00f1c5
   assetPath: Packages/com.unity.shadergraph
   name: com.unity.shadergraph
   displayName: Shader Graph
@@ -4281,7 +4283,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 17.0.3
   source: 2
-  resolvedPath: D:\Unity\SST 2025-05-16_13-20-36\Library\PackageCache\com.unity.render-pipelines.universal-config@5146bcc65e41
+  resolvedPath: C:\Users\Philipp\SST\Library\PackageCache\com.unity.render-pipelines.universal-config@5146bcc65e41
   assetPath: Packages/com.unity.render-pipelines.universal-config
   name: com.unity.render-pipelines.universal-config
   displayName: Universal Render Pipeline Config
@@ -4379,7 +4381,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 1.5.1
   source: 2
-  resolvedPath: D:\Unity\SST 2025-05-16_13-20-36\Library\PackageCache\com.unity.test-framework@c132dced4a5c
+  resolvedPath: C:\Users\Philipp\SST\Library\PackageCache\com.unity.test-framework@c132dced4a5c
   assetPath: Packages/com.unity.test-framework
   name: com.unity.test-framework
   displayName: Test Framework
@@ -4517,7 +4519,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 2.0.5
   source: 2
-  resolvedPath: D:\Unity\SST 2025-05-16_13-20-36\Library\PackageCache\com.unity.ext.nunit@031a54704bff
+  resolvedPath: C:\Users\Philipp\SST\Library\PackageCache\com.unity.ext.nunit@031a54704bff
   assetPath: Packages/com.unity.ext.nunit
   name: com.unity.ext.nunit
   displayName: Custom NUnit
@@ -4596,7 +4598,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 1.4.5
   source: 1
-  resolvedPath: D:\Unity\SST 2025-05-16_13-20-36\Library\PackageCache\com.unity.mobile.android-logcat@0ddcd2133dc3
+  resolvedPath: C:\Users\Philipp\SST\Library\PackageCache\com.unity.mobile.android-logcat@0ddcd2133dc3
   assetPath: Packages/com.unity.mobile.android-logcat
   name: com.unity.mobile.android-logcat
   displayName: Android Logcat
@@ -4692,7 +4694,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 5.1.4
   source: 1
-  resolvedPath: D:\Unity\SST 2025-05-16_13-20-36\Library\PackageCache\com.unity.adaptiveperformance@f25c04dfc305
+  resolvedPath: C:\Users\Philipp\SST\Library\PackageCache\com.unity.adaptiveperformance@f25c04dfc305
   assetPath: Packages/com.unity.adaptiveperformance
   name: com.unity.adaptiveperformance
   displayName: Adaptive Performance
@@ -4846,7 +4848,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 2.4.0
   source: 1
-  resolvedPath: D:\Unity\SST 2025-05-16_13-20-36\Library\PackageCache\com.unity.mobile.notifications@439e41e635a0
+  resolvedPath: C:\Users\Philipp\SST\Library\PackageCache\com.unity.mobile.notifications@439e41e635a0
   assetPath: Packages/com.unity.mobile.notifications
   name: com.unity.mobile.notifications
   displayName: Mobile Notifications
@@ -4973,7 +4975,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 10.1.4
   source: 1
-  resolvedPath: D:\Unity\SST 2025-05-16_13-20-36\Library\PackageCache\com.unity.2d.animation@494a3b4e73a9
+  resolvedPath: C:\Users\Philipp\SST\Library\PackageCache\com.unity.2d.animation@494a3b4e73a9
   assetPath: Packages/com.unity.2d.animation
   name: com.unity.2d.animation
   displayName: 2D Animation
@@ -5227,7 +5229,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 5.0.3
   source: 1
-  resolvedPath: D:\Unity\SST 2025-05-16_13-20-36\Library\PackageCache\com.unity.2d.pixel-perfect@e3ae982b672d
+  resolvedPath: C:\Users\Philipp\SST\Library\PackageCache\com.unity.2d.pixel-perfect@e3ae982b672d
   assetPath: Packages/com.unity.2d.pixel-perfect
   name: com.unity.2d.pixel-perfect
   displayName: 2D Pixel Perfect
@@ -5324,7 +5326,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 9.0.3
   source: 1
-  resolvedPath: D:\Unity\SST 2025-05-16_13-20-36\Library\PackageCache\com.unity.2d.psdimporter@676bae148e11
+  resolvedPath: C:\Users\Philipp\SST\Library\PackageCache\com.unity.2d.psdimporter@676bae148e11
   assetPath: Packages/com.unity.2d.psdimporter
   name: com.unity.2d.psdimporter
   displayName: 2D PSD Importer
@@ -5503,7 +5505,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 1.0.0
   source: 2
-  resolvedPath: D:\Unity\SST 2025-05-16_13-20-36\Library\PackageCache\com.unity.2d.sprite@ebec28036318
+  resolvedPath: C:\Users\Philipp\SST\Library\PackageCache\com.unity.2d.sprite@ebec28036318
   assetPath: Packages/com.unity.2d.sprite
   name: com.unity.2d.sprite
   displayName: 2D Sprite
@@ -5573,7 +5575,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 10.0.7
   source: 1
-  resolvedPath: D:\Unity\SST 2025-05-16_13-20-36\Library\PackageCache\com.unity.2d.spriteshape@9e35352ae135
+  resolvedPath: C:\Users\Philipp\SST\Library\PackageCache\com.unity.2d.spriteshape@9e35352ae135
   assetPath: Packages/com.unity.2d.spriteshape
   name: com.unity.2d.spriteshape
   displayName: 2D SpriteShape
@@ -5769,7 +5771,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 1.0.0
   source: 2
-  resolvedPath: D:\Unity\SST 2025-05-16_13-20-36\Library\PackageCache\com.unity.2d.tilemap@50cb13262373
+  resolvedPath: C:\Users\Philipp\SST\Library\PackageCache\com.unity.2d.tilemap@50cb13262373
   assetPath: Packages/com.unity.2d.tilemap
   name: com.unity.2d.tilemap
   displayName: 2D Tilemap Editor
@@ -5856,7 +5858,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 4.1.0
   source: 1
-  resolvedPath: D:\Unity\SST 2025-05-16_13-20-36\Library\PackageCache\com.unity.2d.tilemap.extras@13634da7dbe0
+  resolvedPath: C:\Users\Philipp\SST\Library\PackageCache\com.unity.2d.tilemap.extras@13634da7dbe0
   assetPath: Packages/com.unity.2d.tilemap.extras
   name: com.unity.2d.tilemap.extras
   displayName: 2D Tilemap Extras
@@ -6002,7 +6004,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 1.1.9
   source: 1
-  resolvedPath: D:\Unity\SST 2025-05-16_13-20-36\Library\PackageCache\com.unity.2d.aseprite@996e69f78764
+  resolvedPath: C:\Users\Philipp\SST\Library\PackageCache\com.unity.2d.aseprite@996e69f78764
   assetPath: Packages/com.unity.2d.aseprite
   name: com.unity.2d.aseprite
   displayName: 2D Aseprite Importer
@@ -6128,7 +6130,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 4.9.3
   source: 1
-  resolvedPath: D:\Unity\SST 2025-05-16_13-20-36\Library\PackageCache\com.unity.searcher@1e17ce91558d
+  resolvedPath: C:\Users\Philipp\SST\Library\PackageCache\com.unity.searcher@1e17ce91558d
   assetPath: Packages/com.unity.searcher
   name: com.unity.searcher
   displayName: Searcher
@@ -6215,7 +6217,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 1.8.21
   source: 1
-  resolvedPath: D:\Unity\SST 2025-05-16_13-20-36\Library\PackageCache\com.unity.burst@59eb6f11d242
+  resolvedPath: C:\Users\Philipp\SST\Library\PackageCache\com.unity.burst@59eb6f11d242
   assetPath: Packages/com.unity.burst
   name: com.unity.burst
   displayName: Burst
@@ -6448,7 +6450,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 1.3.2
   source: 1
-  resolvedPath: D:\Unity\SST 2025-05-16_13-20-36\Library\PackageCache\com.unity.mathematics@8017b507cc74
+  resolvedPath: C:\Users\Philipp\SST\Library\PackageCache\com.unity.mathematics@8017b507cc74
   assetPath: Packages/com.unity.mathematics
   name: com.unity.mathematics
   displayName: Mathematics
@@ -6537,7 +6539,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 2.5.1
   source: 1
-  resolvedPath: D:\Unity\SST 2025-05-16_13-20-36\Library\PackageCache\com.unity.collections@56bff8827a7e
+  resolvedPath: C:\Users\Philipp\SST\Library\PackageCache\com.unity.collections@56bff8827a7e
   assetPath: Packages/com.unity.collections
   name: com.unity.collections
   displayName: Collections
@@ -6712,7 +6714,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 1.0.1
   source: 2
-  resolvedPath: D:\Unity\SST 2025-05-16_13-20-36\Library\PackageCache\com.unity.rendering.light-transport@9bd588f963c0
+  resolvedPath: C:\Users\Philipp\SST\Library\PackageCache\com.unity.rendering.light-transport@9bd588f963c0
   assetPath: Packages/com.unity.rendering.light-transport
   name: com.unity.rendering.light-transport
   displayName: Unity Light Transport Library
@@ -6808,7 +6810,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 1.0.2
   source: 1
-  resolvedPath: D:\Unity\SST 2025-05-16_13-20-36\Library\PackageCache\com.unity.profiling.core@aac7b93912bc
+  resolvedPath: C:\Users\Philipp\SST\Library\PackageCache\com.unity.profiling.core@aac7b93912bc
   assetPath: Packages/com.unity.profiling.core
   name: com.unity.profiling.core
   displayName: Unity Profiling Core API
@@ -6883,7 +6885,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 9.0.7
   source: 1
-  resolvedPath: D:\Unity\SST 2025-05-16_13-20-36\Library\PackageCache\com.unity.2d.common@bb1fc9b3d81b
+  resolvedPath: C:\Users\Philipp\SST\Library\PackageCache\com.unity.2d.common@bb1fc9b3d81b
   assetPath: Packages/com.unity.2d.common
   name: com.unity.2d.common
   displayName: 2D Common
@@ -7046,7 +7048,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 1.11.4
   source: 1
-  resolvedPath: D:\Unity\SST 2025-05-16_13-20-36\Library\PackageCache\com.unity.nuget.mono-cecil@d6f9955a5d5f
+  resolvedPath: C:\Users\Philipp\SST\Library\PackageCache\com.unity.nuget.mono-cecil@d6f9955a5d5f
   assetPath: Packages/com.unity.nuget.mono-cecil
   name: com.unity.nuget.mono-cecil
   displayName: Mono Cecil
@@ -7128,7 +7130,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 3.1.0
   source: 1
-  resolvedPath: D:\Unity\SST 2025-05-16_13-20-36\Library\PackageCache\com.unity.test-framework.performance@92d1d09a72ed
+  resolvedPath: C:\Users\Philipp\SST\Library\PackageCache\com.unity.test-framework.performance@92d1d09a72ed
   assetPath: Packages/com.unity.test-framework.performance
   name: com.unity.test-framework.performance
   displayName: Performance testing API
