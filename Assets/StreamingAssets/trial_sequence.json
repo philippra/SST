@@ -1,0 +1,200 @@
+{
+    "trials": [
+        {
+            "trialNumber": 1,
+            "trialType": "stop_left",
+            "targetSide": "left",
+            "waitTime": 2.118908166885376
+        },
+        {
+            "trialNumber": 2,
+            "trialType": "go",
+            "targetSide": "right",
+            "waitTime": 1.8319756984710694
+        },
+        {
+            "trialNumber": 3,
+            "trialType": "go",
+            "targetSide": "right",
+            "waitTime": 1.6644548177719117
+        },
+        {
+            "trialNumber": 4,
+            "trialType": "stop_right",
+            "targetSide": "right",
+            "waitTime": 2.0241029262542726
+        },
+        {
+            "trialNumber": 5,
+            "trialType": "go",
+            "targetSide": "right",
+            "waitTime": 2.345137357711792
+        },
+        {
+            "trialNumber": 6,
+            "trialType": "go",
+            "targetSide": "left",
+            "waitTime": 1.4753117561340333
+        },
+        {
+            "trialNumber": 7,
+            "trialType": "go",
+            "targetSide": "left",
+            "waitTime": 1.1062963008880616
+        },
+        {
+            "trialNumber": 8,
+            "trialType": "stop_right",
+            "targetSide": "right",
+            "waitTime": 2.129932165145874
+        },
+        {
+            "trialNumber": 9,
+            "trialType": "go",
+            "targetSide": "left",
+            "waitTime": 1.8741614818572999
+        },
+        {
+            "trialNumber": 10,
+            "trialType": "stop_right",
+            "targetSide": "right",
+            "waitTime": 2.2923617362976076
+        },
+        {
+            "trialNumber": 11,
+            "trialType": "stop_left",
+            "targetSide": "left",
+            "waitTime": 2.6728322505950929
+        },
+        {
+            "trialNumber": 12,
+            "trialType": "go",
+            "targetSide": "left",
+            "waitTime": 2.6834702491760256
+        },
+        {
+            "trialNumber": 13,
+            "trialType": "stop_right",
+            "targetSide": "right",
+            "waitTime": 1.925433874130249
+        },
+        {
+            "trialNumber": 14,
+            "trialType": "go",
+            "targetSide": "left",
+            "waitTime": 2.407811164855957
+        },
+        {
+            "trialNumber": 15,
+            "trialType": "go",
+            "targetSide": "left",
+            "waitTime": 1.5940090417861939
+        },
+        {
+            "trialNumber": 16,
+            "trialType": "stop_left",
+            "targetSide": "left",
+            "waitTime": 2.841069221496582
+        },
+        {
+            "trialNumber": 17,
+            "trialType": "go",
+            "targetSide": "right",
+            "waitTime": 2.9970080852508547
+        },
+        {
+            "trialNumber": 18,
+            "trialType": "stop_right",
+            "targetSide": "right",
+            "waitTime": 2.026167631149292
+        },
+        {
+            "trialNumber": 19,
+            "trialType": "go",
+            "targetSide": "right",
+            "waitTime": 2.8531594276428224
+        },
+        {
+            "trialNumber": 20,
+            "trialType": "go",
+            "targetSide": "right",
+            "waitTime": 1.0359458923339844
+        },
+        {
+            "trialNumber": 21,
+            "trialType": "stop_right",
+            "targetSide": "right",
+            "waitTime": 1.6825668811798096
+        },
+        {
+            "trialNumber": 22,
+            "trialType": "go",
+            "targetSide": "left",
+            "waitTime": 2.9871890544891359
+        },
+        {
+            "trialNumber": 23,
+            "trialType": "stop_left",
+            "targetSide": "left",
+            "waitTime": 2.6265478134155275
+        },
+        {
+            "trialNumber": 24,
+            "trialType": "stop_left",
+            "targetSide": "left",
+            "waitTime": 1.8651392459869385
+        },
+        {
+            "trialNumber": 25,
+            "trialType": "go",
+            "targetSide": "right",
+            "waitTime": 2.9616544246673586
+        },
+        {
+            "trialNumber": 26,
+            "trialType": "go",
+            "targetSide": "left",
+            "waitTime": 2.1393039226531984
+        },
+        {
+            "trialNumber": 27,
+            "trialType": "go",
+            "targetSide": "right",
+            "waitTime": 2.2079012393951418
+        },
+        {
+            "trialNumber": 28,
+            "trialType": "stop_left",
+            "targetSide": "left",
+            "waitTime": 1.4793133735656739
+        },
+        {
+            "trialNumber": 29,
+            "trialType": "go",
+            "targetSide": "right",
+            "waitTime": 1.2134604454040528
+        },
+        {
+            "trialNumber": 30,
+            "trialType": "go",
+            "targetSide": "right",
+            "waitTime": 1.9803626537322999
+        },
+        {
+            "trialNumber": 31,
+            "trialType": "go",
+            "targetSide": "left",
+            "waitTime": 1.3797874450683594
+        },
+        {
+            "trialNumber": 32,
+            "trialType": "go",
+            "targetSide": "left",
+            "waitTime": 1.420945405960083
+        }
+    ],
+    "totalTrials": 32,
+    "stopTrialPercentage": 0.375,
+    "experimentName": "StopSignalTask",
+    "createdDate": "2025-06-24 14:46:56"
+}

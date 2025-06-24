@@ -3,7 +3,7 @@ using UnityEngine;
 public class ResponseCircle : MonoBehaviour
 {
     [Header("Detection Settings")]
-    public string fruitTag = "Fruit"; // Still useful for visual identification
+    public string fruitTag = "Fruit";
 
     [Header("Response Feedback")]
     public Color validColor = Color.green;
@@ -12,7 +12,7 @@ public class ResponseCircle : MonoBehaviour
     public float colorFlashDuration = 0.2f;
 
     [Header("Fruit Reference")]
-    public GameObject targetFruit; // Direct reference to the fruit this circle is responsible for
+    public GameObject targetFruit;
 
     private SpriteRenderer spriteRenderer;
     private Mover fruitMover;
@@ -29,7 +29,6 @@ public class ResponseCircle : MonoBehaviour
             spriteRenderer.color = normalColor;
         }
 
-        // Get the Mover component directly from the targetFruit
         if (targetFruit != null)
         {
             fruitMover = targetFruit.GetComponent<Mover>();
@@ -46,8 +45,7 @@ public class ResponseCircle : MonoBehaviour
 
     void Update()
     {
-        // Check for mouse click
-        if (Input.GetMouseButtonDown(0)) // Left mouse button
+        if (Input.GetMouseButtonDown(0)) 
         {
             // Check if the click is within this circle
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -66,7 +64,6 @@ public class ResponseCircle : MonoBehaviour
         {
             if (fruitMover.IsInValidResponseWindow())
             {
-                // Valid response within the time window
                 Debug.Log($"Valid response for {targetFruit.name}");
                 fruitMover.RegisterResponse();
                 FlashColor(validColor);
@@ -80,7 +77,6 @@ public class ResponseCircle : MonoBehaviour
         }
         else
         {
-            // No fruit assigned or Mover component missing
             Debug.Log("No fruit to respond to");
             FlashColor(invalidColor);
         }

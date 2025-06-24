@@ -20,7 +20,6 @@ public static class EventManager
     private static Dictionary<EventType, Action<GameObject, object>> eventDictionary =
         new Dictionary<EventType, Action<GameObject, object>>();
 
-    // Subscribe to an event
     public static void Subscribe(EventType eventType, Action<GameObject, object> listener)
     {
         if (!eventDictionary.ContainsKey(eventType))
@@ -30,7 +29,6 @@ public static class EventManager
         eventDictionary[eventType] += listener;
     }
 
-    // Unsubscribe from an event
     public static void Unsubscribe(EventType eventType, Action<GameObject, object> listener)
     {
         if (eventDictionary.ContainsKey(eventType) && eventDictionary[eventType] != null)
@@ -39,7 +37,6 @@ public static class EventManager
         }
     }
 
-    // Trigger an event
     public static void TriggerEvent(EventType eventType, GameObject sender, object data)
     {
         if(eventDictionary.ContainsKey(eventType) && eventDictionary[eventType] != null)
@@ -48,7 +45,6 @@ public static class EventManager
         }
     }
 
-    // Clear all events
     public static void ClearEvents()
     {
         eventDictionary.Clear();

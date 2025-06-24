@@ -3,10 +3,10 @@ using UnityEngine;
 public class AppleSlicePrefabSetup : MonoBehaviour
 {
     [Header("Prefab Setup")]
-    public GameObject[] appleSlicePrefabs;  // Array to hold the 5 slice prefabs
+    public GameObject[] appleSlicePrefabs; 
 
     [Header("Sprite References")]
-    public Sprite[] appleSliceSprites;      // Array of 5 apple slice sprites
+    public Sprite[] appleSliceSprites;
 
     public void SetupSlicePrefabs()
     {
