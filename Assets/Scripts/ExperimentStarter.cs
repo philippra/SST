@@ -21,7 +21,7 @@ public class ExperimentStarter : MonoBehaviour
     private Canvas startCanvas;
     private bool experimentStarted = false;
 
-    void Start()
+    void Awake()
     {
         mainController = FindObjectOfType<Main>();
         if (mainController == null)

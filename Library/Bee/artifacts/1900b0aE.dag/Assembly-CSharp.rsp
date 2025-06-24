@@ -457,15 +457,15 @@
 -analyzer:"C:/Program Files/Unity/Hub/Editor/6000.0.49f1/Editor/Data/Tools/Unity.SourceGenerators/Unity.Properties.SourceGenerator.dll"
 -analyzer:"C:/Program Files/Unity/Hub/Editor/6000.0.49f1/Editor/Data/Tools/Unity.SourceGenerators/Unity.SourceGenerators.dll"
 -analyzer:"C:/Program Files/Unity/Hub/Editor/6000.0.49f1/Editor/Data/Tools/Unity.SourceGenerators/Unity.UIToolkit.SourceGenerator.dll"
-"Assets/ExperimentStarter.cs"
 "Assets/Scripts/AppleSlicePrefabSetup.cs"
 "Assets/Scripts/EventManager.cs"
+"Assets/Scripts/ExperimentStarter.cs"
 "Assets/Scripts/FruitSlicer.cs"
 "Assets/Scripts/Main.cs"
 "Assets/Scripts/Mover.cs"
 "Assets/Scripts/ResponseCircle.cs"
 "Assets/Scripts/SpriteBackgroundFitter.cs"
-"Assets/TrialSequenceGenerator.cs"
+"Assets/Scripts/TrialSequenceGenerator.cs"
 "Assets/TutorialInfo/Scripts/Readme.cs"
 -langversion:9.0
 /deterministic
