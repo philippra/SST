@@ -97,7 +97,6 @@ public class FruitSlicer : MonoBehaviour
     {
         yield return new WaitForSeconds(lifetime * 0.7f);
 
-        // Fade out
         float fadeTime = lifetime * 0.3f;
         float startTime = Time.time;
         Color startColor = renderer.color;

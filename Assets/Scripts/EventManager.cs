@@ -14,7 +14,8 @@ public static class EventManager
         ResponseRegistered,
         SliceAnimationStateChanged,
         GameStateChanged,
-        FeedbackMessageStateChanged
+        FeedbackMessageStateChanged,
+        TrialInitiated
     }
 
     //Dictionary to store event subscribers

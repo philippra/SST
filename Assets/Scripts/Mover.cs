@@ -119,8 +119,7 @@ public class Mover : MonoBehaviour
         stopSignalShown = false;
         correctResponse = false;
 
-        // Move down to bottom
-        Debug.Log($"{gameObject.name} starting to move down - Stop trial: {isStopTrial} - Current SSD: {stopSignalDelay}");
+        Debug.Log($"{gameObject.name} starting to move down - Stop trial: {isStopTrial} - Current SSD: {mainController.GetCurrentStopSignalDelay()}");
 
         fallingStartTime = Time.time;
         responseRegistered = false;
@@ -142,7 +141,7 @@ public class Mover : MonoBehaviour
 
         yield return StartCoroutine(MoveToPosition(bottomPosition));
 
-        // Only do the bottom wait if no response was registered
+
         if (!responseRegistered)
         {
             if (isStopTrial)
@@ -158,7 +157,6 @@ public class Mover : MonoBehaviour
                 Debug.Log($"{gameObject.name} MISSED - failed to respond on go trial");
             }
 
-            // Trigger response event for SSD adjustment
             EventManager.TriggerEvent(EventManager.EventType.ResponseRegistered, gameObject, null);
 
             Debug.Log($"{gameObject.name} waiting at bottom for {bottomWaitTime} seconds");
@@ -167,7 +165,7 @@ public class Mover : MonoBehaviour
 
         if (!responseRegistered)
         {
-            // Reset to top position after no response
+
             Debug.Log($"{gameObject.name} resetting to top");
             ResetToTop();
         }
@@ -199,7 +197,6 @@ public class Mover : MonoBehaviour
 
     IEnumerator TrackResponseWindow()
     {
-        // Wait until response window starts
         float timeToWait = validResponseStartTime;
         yield return new WaitForSeconds(timeToWait);
 
@@ -299,7 +296,14 @@ public class Mover : MonoBehaviour
                 {
                     FeedbackMessageUI.Instance.ShowBadAppleMessage();
                 }
-                stopSignalDelay = stopSignalDelay > 0 ? stopSignalDelay - 50 : 0;
+
+                int stopSignalDelay = mainController.GetCurrentStopSignalDelay();
+
+                if (stopSignalDelay > 0)
+                {
+                    mainController.SetCurrentStopSignalDelay(-50);
+                }
+
                 Debug.Log($"Stop signal delay is now {stopSignalDelay}ms");
             }
             else if (isStopTrial && !stopSignalShown)
@@ -317,7 +321,6 @@ public class Mover : MonoBehaviour
 
             responseRegistered = true;
 
-            // Trigger response event for SSD adjustment
             EventManager.TriggerEvent(EventManager.EventType.ResponseRegistered, gameObject, null);
 
             FruitSlicer slicer = GetComponent<FruitSlicer>();
@@ -332,7 +335,6 @@ public class Mover : MonoBehaviour
                 GetComponent<SpriteRenderer>().enabled = false;
             }
 
-            // Start the reset timer
             StartCoroutine(ResetAfterResponse());
         }
         else if (isMoving && !isInValidResponseWindow)
@@ -343,10 +345,8 @@ public class Mover : MonoBehaviour
 
     IEnumerator ResetAfterResponse()
     {
-        // Wait for the reset delay
         yield return new WaitForSeconds(resetDelay);
         Debug.Log("Resetting after response");
-        // Reset position and make visible again
         ResetToTop();
     }
 
@@ -376,13 +376,11 @@ public class Mover : MonoBehaviour
         isAvailableForMovement = true;
     }
 
-    // Public method to check if this fruit is currently in its valid response window
     public bool IsInValidResponseWindow()
     {
         return isInValidResponseWindow;
     }
 
-    // Public methods for Main to access trial outcome info
     public bool WasStopTrial()
     {
         return isStopTrial;

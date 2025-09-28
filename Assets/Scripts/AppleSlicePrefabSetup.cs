@@ -10,7 +10,6 @@ public class AppleSlicePrefabSetup : MonoBehaviour
 
     public void SetupSlicePrefabs()
     {
-        // Make sure we have both arrays properly initialized
         if (appleSlicePrefabs == null || appleSlicePrefabs.Length != 5)
         {
             Debug.LogError("Apple slice prefabs array must have exactly 5 elements!");
@@ -23,7 +22,6 @@ public class AppleSlicePrefabSetup : MonoBehaviour
             return;
         }
 
-        // Assign sprites to each prefab
         for (int i = 0; i < 5; i++)
         {
             if (appleSlicePrefabs[i] != null)

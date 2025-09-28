@@ -54,7 +54,6 @@ public class FeedbackMessageUI : MonoBehaviour
 
     void CreateUI()
     {
-        // Create canvas
         GameObject canvasObj = new GameObject("FeedbackCanvas");
         canvasObj.transform.SetParent(transform);
 
@@ -69,7 +68,6 @@ public class FeedbackMessageUI : MonoBehaviour
 
         canvasObj.AddComponent<GraphicRaycaster>();
 
-        // Create background panel
         messagePanel = new GameObject("MessagePanel");
         messagePanel.transform.SetParent(canvasObj.transform, false);
 
@@ -83,7 +81,6 @@ public class FeedbackMessageUI : MonoBehaviour
         panelRect.sizeDelta = new Vector2(700, 200);
         panelRect.anchoredPosition = Vector2.zero;
 
-        // Create text
         GameObject textObj = new GameObject("FeedbackText");
         textObj.transform.SetParent(messagePanel.transform, false);
 
@@ -100,7 +97,6 @@ public class FeedbackMessageUI : MonoBehaviour
         textRect.offsetMin = new Vector2(20, 20);
         textRect.offsetMax = new Vector2(-20, -20);
 
-        // CRITICAL: Hide the panel immediately after creation
         messagePanel.SetActive(false);
 
         Debug.Log("UI created and hidden");

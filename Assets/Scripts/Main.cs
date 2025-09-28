@@ -18,11 +18,11 @@ public class Main : MonoBehaviour
     public GameObject rightFruit;
 
     [Header("Stop Signal Settings")]
-    public int globalStopSignalDelay = 250;
+    private int globalStopSignalDelay = 250;
     public int ssdStep = 50;
 
-    // Trial sequence data
-    private ExperimentSequence currentSequence;
+
+    private ExperimentSequence currentSequence; // Trial sequence data
     private int currentTrialIndex = 0;
     private bool sequenceLoaded = false;
 
@@ -33,17 +33,18 @@ public class Main : MonoBehaviour
     // tracks which fruits currently have running slice animations
     private HashSet<GameObject> animatingFruits = new HashSet<GameObject>();
 
-    // Reference to the experiment starter
     private ExperimentStarter experimentStarter;
 
+    private bool trialInitiated = false;
     private bool feedbackMessageShowing = false;
+    private bool animationRunning = false;
 
 
     void Start()
     {
-        // Find the experiment starter
         experimentStarter = FindObjectOfType<ExperimentStarter>();
 
+        EventManager.Subscribe(EventManager.EventType.TrialInitiated, OnTrialInitiated);
         EventManager.Subscribe(EventManager.EventType.FruitMovementChanged, OnFruitMovementChanged);
         EventManager.Subscribe(EventManager.EventType.FruitBusyStateChanged, OnFruitBusyChanged);
         EventManager.Subscribe(EventManager.EventType.ValidResponseWindowChanged, OnValidResponseWindowChanged);
@@ -55,7 +56,7 @@ public class Main : MonoBehaviour
 
         LoadTrialSequence();
 
-        // Only start if sequence was loaded successfully
+
         if (sequenceLoaded)
         {
             Debug.Log("Trial sequence loaded successfully. Waiting for user to start experiment...");
@@ -70,11 +71,13 @@ public class Main : MonoBehaviour
 
     void OnDestroy()
     {
+        EventManager.Unsubscribe(EventManager.EventType.TrialInitiated, OnTrialInitiated);
         EventManager.Unsubscribe(EventManager.EventType.FruitMovementChanged, OnFruitMovementChanged);
         EventManager.Unsubscribe(EventManager.EventType.FruitBusyStateChanged, OnFruitBusyChanged);
         EventManager.Unsubscribe(EventManager.EventType.ValidResponseWindowChanged, OnValidResponseWindowChanged);
         EventManager.Unsubscribe(EventManager.EventType.SliceAnimationStateChanged, OnAnimationStateChanged);
         EventManager.Unsubscribe(EventManager.EventType.ResponseRegistered, OnResponseRegistered);
+        EventManager.Unsubscribe(EventManager.EventType.FeedbackMessageStateChanged, OnFeedbackMessageStateChanged);
     }
 
     void SetupFruits()
@@ -205,6 +208,11 @@ public class Main : MonoBehaviour
         return globalStopSignalDelay;
     }
 
+    public void SetCurrentStopSignalDelay(int deltaDelay)
+    {
+        globalStopSignalDelay += deltaDelay;
+    }
+
     void OnResponseRegistered(GameObject fruit, object responseData)
     {
         Mover mover = fruit.GetComponent<Mover>();
@@ -258,6 +266,7 @@ public class Main : MonoBehaviour
         if (busy)
         {
             busyFruits.Add(fruit);
+            trialInitiated = false;
             //Debug.Log($"{fruit.name} is now busy (in movement cycle). Total busy: {busyFruits.Count}");
         }
         else
@@ -298,7 +307,7 @@ public class Main : MonoBehaviour
 
     void OnAnimationStateChanged(GameObject fruit, object animationObj)
     {
-        bool animationRunning = (bool)animationObj;
+        animationRunning = (bool)animationObj;
         if (animationRunning)
         {
             animatingFruits.Add(fruit);
@@ -315,7 +324,39 @@ public class Main : MonoBehaviour
         }
     }
 
+    void OnTrialInitiated(GameObject sender, object data)
+    {
+        int trialIndex = (int)data;
+        Debug.Log($"Trial {trialIndex} initiation started.");
+    }
+
     IEnumerator CheckTrialComplete()
+    {
+        yield return null; // Wait a frame
+
+
+
+        if (busyFruits.Count == 0 && animatingFruits.Count == 0 && !feedbackMessageShowing && !animationRunning)
+
+        {
+
+            Debug.Log($"Trial {currentTrialIndex} complete.");
+
+            yield return new WaitForSeconds(0.5f); // Brief pause between trials
+
+            StartNextTrial();
+
+        }
+
+        else
+
+        {
+
+            Debug.Log($"Waiting for trial completion - Busy fruits: {busyFruits.Count}, Animating fruits: {animatingFruits.Count}");
+
+        }
+
+    }
     void OnFeedbackMessageStateChanged(GameObject sender, object showingObj)
     {
         bool showing = (bool)showingObj;
@@ -336,19 +377,13 @@ public class Main : MonoBehaviour
     {
         yield return null; // Wait a frame
 
-        // NEW: Include feedback message state in the check
         if (busyFruits.Count == 0 && animatingFruits.Count == 0 && !feedbackMessageShowing)
         {
-            Debug.Log("Trial complete. Starting next trial.");
+            Debug.Log("No fruit is moving or being animated.");
             yield return new WaitForSeconds(0.5f); // Brief pause between trials
             StartNextTrial();
         }
-        else
-        {
-            Debug.Log($"Waiting for trial completion - Busy fruits: {busyFruits.Count}, Animating fruits: {animatingFruits.Count}");
-            Debug.Log("All fruit movement cycles complete and no feedback showing. Starting new fruit movement.");
-            StartFruitMovement();
-        }
+        
         else
         {
             Debug.Log($"Waiting for completion - Busy fruits: {busyFruits.Count}, Animating fruits: {animatingFruits.Count}, Feedback showing: {feedbackMessageShowing}");
@@ -363,15 +398,24 @@ public class Main : MonoBehaviour
             return;
         }
 
-        if (currentTrialIndex < currentSequence.trials.Count)
+        if (trialInitiated)
         {
+            Debug.LogWarning("Trial start already in progress, ignoring duplciate call.");
+            return;
+        }
+
+        if (currentTrialIndex < currentSequence.trials.Count && busyFruits.Count == 0 && !feedbackMessageShowing && !animationRunning)
+        {
+            trialInitiated = true;
+            EventManager.TriggerEvent(EventManager.EventType.TrialInitiated, gameObject, currentTrialIndex);
+
             TrialData trial = currentSequence.trials[currentTrialIndex];
             Debug.Log($"Starting Trial {trial.trialNumber} ({currentTrialIndex + 1}/{currentSequence.trials.Count}): {trial.trialType} on {trial.targetSide}");
 
             StartCoroutine(ExecuteTrial(trial));
             currentTrialIndex++;
         }
-        else
+        else if (currentTrialIndex >= currentSequence.trials.Count)
         {
             Debug.Log("All trials completed!");
             OnExperimentComplete();
@@ -393,7 +437,7 @@ public class Main : MonoBehaviour
         // Select the fruit based on trial data
         GameObject selectedFruit = (trial.targetSide == "left") ? leftFruit : rightFruit;
 
-        if (selectedFruit != null)
+        if (selectedFruit != null && busyFruits.Count == 0)
         {
             Mover mover = selectedFruit.GetComponent<Mover>();
             if (mover != null)
@@ -409,22 +453,19 @@ public class Main : MonoBehaviour
     }
 
     void OnExperimentComplete()
+
     {
 
         Debug.Log("=== EXPERIMENT COMPLETED ===");
+
         Debug.Log($"Total trials completed: {currentTrialIndex}");
+
         Debug.Log($"Final Stop Signal Delay: {globalStopSignalDelay}ms");
 
-        // Wait a short time to ensure any previous coroutines are fully cleaned up
-        // Debug.Log($"Waiting briefly before starting movement of {fruit.name}");
-        // Wait at top for random time
-        float randomWait = Random.Range(minWaitTime, maxWaitTime);
-        Debug.Log($"{gameObject.name} waiting at top for {randomWait} seconds");
-        yield return new WaitForSeconds(randomWait);
-
-
         EventManager.TriggerEvent(EventManager.EventType.GameStateChanged, gameObject, "experiment_complete");
+
     }
+
 
     // Public methods for debugging/testing
     [ContextMenu("Skip to Next Trial")]
