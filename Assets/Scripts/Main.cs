@@ -36,6 +36,9 @@ public class Main : MonoBehaviour
     // Reference to the experiment starter
     private ExperimentStarter experimentStarter;
 
+    private bool feedbackMessageShowing = false;
+
+
     void Start()
     {
         // Find the experiment starter
@@ -46,6 +49,7 @@ public class Main : MonoBehaviour
         EventManager.Subscribe(EventManager.EventType.ValidResponseWindowChanged, OnValidResponseWindowChanged);
         EventManager.Subscribe(EventManager.EventType.SliceAnimationStateChanged, OnAnimationStateChanged);
         EventManager.Subscribe(EventManager.EventType.ResponseRegistered, OnResponseRegistered);
+        EventManager.Subscribe(EventManager.EventType.FeedbackMessageStateChanged, OnFeedbackMessageStateChanged);
 
         SetupFruits();
 
@@ -254,15 +258,22 @@ public class Main : MonoBehaviour
         if (busy)
         {
             busyFruits.Add(fruit);
-            Debug.Log($"{fruit.name} is now busy (in movement cycle). Total busy: {busyFruits.Count}");
+            //Debug.Log($"{fruit.name} is now busy (in movement cycle). Total busy: {busyFruits.Count}");
         }
         else
         {
             if (busyFruits.Contains(fruit))
             {
                 busyFruits.Remove(fruit);
+
                 Debug.Log($"{fruit.name} is no longer busy (cycle complete). Total busy: {busyFruits.Count}");
                 StartCoroutine(CheckTrialComplete());
+
+                //Debug.Log($"{fruit.name} is no longer busy (cycle complete). Total busy: {busyFruits.Count}");
+
+                // Wait a frame before checking if all fruits are done
+                StartCoroutine(CheckAllFruitsComplete());
+
             }
         }
     }
@@ -273,14 +284,14 @@ public class Main : MonoBehaviour
         if (inWindow)
         {
             responseFruits.Add(fruit);
-            Debug.Log($"{fruit.name} entered valid response window. Total in window: {responseFruits.Count}");
+            //Debug.Log($"{fruit.name} entered valid response window. Total in window: {responseFruits.Count}");
         }
         else
         {
             if (responseFruits.Contains(fruit))
             {
                 responseFruits.Remove(fruit);
-                Debug.Log($"{fruit.name} exited valid response window. Total in window: {responseFruits.Count}");
+                //Debug.Log($"{fruit.name} exited valid response window. Total in window: {responseFruits.Count}");
             }
         }
     }
@@ -305,10 +316,28 @@ public class Main : MonoBehaviour
     }
 
     IEnumerator CheckTrialComplete()
+    void OnFeedbackMessageStateChanged(GameObject sender, object showingObj)
+    {
+        bool showing = (bool)showingObj;
+        feedbackMessageShowing = showing;
+
+        if (showing)
+        {
+            Debug.Log("Feedback message is now showing - preventing new trials");
+        }
+        else
+        {
+            Debug.Log("Feedback message hidden - can start new trials");
+            StartCoroutine(CheckAllFruitsComplete());
+        }
+    }
+
+    IEnumerator CheckAllFruitsComplete()
     {
         yield return null; // Wait a frame
 
-        if (busyFruits.Count == 0 && animatingFruits.Count == 0)
+        // NEW: Include feedback message state in the check
+        if (busyFruits.Count == 0 && animatingFruits.Count == 0 && !feedbackMessageShowing)
         {
             Debug.Log("Trial complete. Starting next trial.");
             yield return new WaitForSeconds(0.5f); // Brief pause between trials
@@ -317,6 +346,12 @@ public class Main : MonoBehaviour
         else
         {
             Debug.Log($"Waiting for trial completion - Busy fruits: {busyFruits.Count}, Animating fruits: {animatingFruits.Count}");
+            Debug.Log("All fruit movement cycles complete and no feedback showing. Starting new fruit movement.");
+            StartFruitMovement();
+        }
+        else
+        {
+            Debug.Log($"Waiting for completion - Busy fruits: {busyFruits.Count}, Animating fruits: {animatingFruits.Count}, Feedback showing: {feedbackMessageShowing}");
         }
     }
 
@@ -341,6 +376,11 @@ public class Main : MonoBehaviour
             Debug.Log("All trials completed!");
             OnExperimentComplete();
         }
+
+
+        Debug.Log($"Feedback message showing: {feedbackMessageShowing}");
+        Debug.Log("-------------------------");
+
     }
 
     IEnumerator ExecuteTrial(TrialData trial)
@@ -370,9 +410,18 @@ public class Main : MonoBehaviour
 
     void OnExperimentComplete()
     {
+
         Debug.Log("=== EXPERIMENT COMPLETED ===");
         Debug.Log($"Total trials completed: {currentTrialIndex}");
         Debug.Log($"Final Stop Signal Delay: {globalStopSignalDelay}ms");
+
+        // Wait a short time to ensure any previous coroutines are fully cleaned up
+        // Debug.Log($"Waiting briefly before starting movement of {fruit.name}");
+        // Wait at top for random time
+        float randomWait = Random.Range(minWaitTime, maxWaitTime);
+        Debug.Log($"{gameObject.name} waiting at top for {randomWait} seconds");
+        yield return new WaitForSeconds(randomWait);
+
 
         EventManager.TriggerEvent(EventManager.EventType.GameStateChanged, gameObject, "experiment_complete");
     }

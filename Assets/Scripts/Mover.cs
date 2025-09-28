@@ -120,7 +120,7 @@ public class Mover : MonoBehaviour
         correctResponse = false;
 
         // Move down to bottom
-        Debug.Log($"{gameObject.name} starting to move down - Stop trial: {isStopTrial}");
+        Debug.Log($"{gameObject.name} starting to move down - Stop trial: {isStopTrial} - Current SSD: {stopSignalDelay}");
 
         fallingStartTime = Time.time;
         responseRegistered = false;
@@ -294,6 +294,13 @@ public class Mover : MonoBehaviour
                 // Responded after seeing stop signal - incorrect
                 correctResponse = false;
                 Debug.Log($"{gameObject.name} INCORRECT RESPONSE - should have stopped after seeing bad apple!");
+                
+                if (FeedbackMessageUI.Instance != null)
+                {
+                    FeedbackMessageUI.Instance.ShowBadAppleMessage();
+                }
+                stopSignalDelay = stopSignalDelay > 0 ? stopSignalDelay - 50 : 0;
+                Debug.Log($"Stop signal delay is now {stopSignalDelay}ms");
             }
             else if (isStopTrial && !stopSignalShown)
             {
@@ -314,7 +321,7 @@ public class Mover : MonoBehaviour
             EventManager.TriggerEvent(EventManager.EventType.ResponseRegistered, gameObject, null);
 
             FruitSlicer slicer = GetComponent<FruitSlicer>();
-            if (slicer != null)
+            if (slicer != null && !isStopTrial)
             {
                 Debug.Log($"Slicing fruit at current position: {transform.position}");
                 slicer.SliceFruit();

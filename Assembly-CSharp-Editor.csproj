@@ -10,7 +10,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{9B333706-769C-F65B-9B9F-6073564955E2}</ProjectGuid>
+    <ProjectGuid>{339F66CE-CAFB-2F50-A8B4-BC93CE0C1053}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp-Editor</AssemblyName>
@@ -542,6 +542,10 @@
     </Reference>
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.49f1\Editor\Data\PlaybackEngines\WindowsStandaloneSupport\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEditor.UWP.Extensions">
+      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.49f1\Editor\Data\PlaybackEngines\MetroSupport\UnityEditor.UWP.Extensions.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEditor.Android.Extensions">
@@ -1439,7 +1443,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp.csproj">
-      <Project>{C1B86CFD-FA85-527B-5EC7-63A6AF213FC4}</Project>
+      <Project>{07E1B7F0-86C3-46BD-103D-305E822CE31C}</Project>
       <Name>Assembly-CSharp</Name>
     </ProjectReference>
   </ItemGroup>
