@@ -226,7 +226,7 @@ public class Main : MonoBehaviour
                 if (wasCorrectResponse)
                 {
                     // Correct stop - increase SSD to make it harder
-                    globalStopSignalDelay += ssdStep;
+                    globalStopSignalDelay = Mathf.Min(500, globalStopSignalDelay + ssdStep);
                     Debug.Log($"Correct stop response - SSD increased to {globalStopSignalDelay}ms");
                 }
                 else

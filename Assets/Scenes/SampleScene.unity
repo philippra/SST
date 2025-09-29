@@ -331,12 +331,12 @@ MonoBehaviour:
   instructionText: {fileID: 0}
   backgroundGameObject: {fileID: 1689955732}
   startMessage: "Ber\xFChre den Bildschirm, um zu starten."
-  instructionMessage: "Fange die guten \xC4pfel wenn sie die wei\xDFen Kreise ber\xFChren,
+  instructionMessage: "Fange die guten \xC4pfel, wenn sie die wei\xDFen Kreise ber\xFChren,
     indem du auf den entsprechenden wei\xDFen Kreis dr\xFCckst.\\n\\nBer\xFChre den
     Kreis nicht, wenn der Apfel w\xE4hrend des Fallens verrottet!"
   showBorder: 1
   borderColor: {r: 1, g: 0, b: 0, a: 1}
-  borderThickness: 2
+  borderThickness: 1
   fadeOutDuration: 0.5
   useBackgroundBounds: 1
   fontSizeMultiplier: 0.01

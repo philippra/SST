@@ -170,7 +170,7 @@ public class Mover : MonoBehaviour
             ResetToTop();
         }
 
-        Debug.Log($"{gameObject.name} movement cycle complete, clearing coroutine");
+        //Debug.Log($"{gameObject.name} movement cycle complete, clearing coroutine");
         movementCoroutine = null;
 
         trialTypeSetExternally = false;
@@ -233,7 +233,7 @@ public class Mover : MonoBehaviour
         }
 
         isMoving = false;
-        Debug.Log("MoveToPosition completed.");
+        //Debug.Log("MoveToPosition completed.");
     }
 
     public void StartMovement()
@@ -297,14 +297,6 @@ public class Mover : MonoBehaviour
                     FeedbackMessageUI.Instance.ShowBadAppleMessage();
                 }
 
-                int stopSignalDelay = mainController.GetCurrentStopSignalDelay();
-
-                if (stopSignalDelay > 0)
-                {
-                    mainController.SetCurrentStopSignalDelay(-50);
-                }
-
-                Debug.Log($"Stop signal delay is now {stopSignalDelay}ms");
             }
             else if (isStopTrial && !stopSignalShown)
             {

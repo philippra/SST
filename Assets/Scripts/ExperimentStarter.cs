@@ -16,12 +16,12 @@ public class ExperimentStarter : MonoBehaviour
 
     [Header("Start Screen Settings")]
     public string startMessage = "Berühre den Bildschirm, um zu starten.";
-    public string instructionMessage = "Fange die guten Äpfel wenn sie die weißen Kreise berühren, indem du auf den entsprechenden weißen Kreis drückst.\n\nBerühre den Kreis nicht, wenn der Apfel während des Fallens verrottet!";
+    public string instructionMessage = "Fange die guten Äpfel, wenn sie die weißen Kreise berühren, indem du auf den entsprechenden weißen Kreis drückst.\n\nBerühre den Kreis nicht, wenn der Apfel während des Fallens verrottet!";
 
     [Header("Border Settings")]
     public bool showBorder = true;
     public Color borderColor = Color.red;
-    public float borderThickness = 2f;
+    public float borderThickness = 1f;
 
     [Header("Fade Settings")] 
     public float fadeOutDuration = 0.5f;
@@ -110,7 +110,7 @@ public class ExperimentStarter : MonoBehaviour
 
         if (useBackgroundBounds)
         {
-            float pixelsPerUnit = 100f;
+            float pixelsPerUnit = 100f; // might fetch this automatically in the future to preven this magic number;
             scaler.referenceResolution = new Vector2(
                 backgroundSize.x * pixelsPerUnit,
                 backgroundSize.y * pixelsPerUnit);
@@ -133,38 +133,6 @@ public class ExperimentStarter : MonoBehaviour
         bgRect.anchorMax = Vector2.one;
         bgRect.offsetMin = Vector2.zero;
         bgRect.offsetMax = Vector2.zero;
-
-        GameObject instructionObj = new GameObject("InstructionText");
-        instructionObj.transform.SetParent(startScreen.transform, false);
-
-        instructionText = instructionObj.AddComponent<TextMeshProUGUI>();
-        instructionText.text = instructionMessage;
-        instructionText.fontSize = 96;
-        instructionText.color = Color.white;
-        instructionText.alignment = TextAlignmentOptions.Center;
-        instructionText.fontStyle = FontStyles.Normal;
-
-        RectTransform instructionRect = instructionObj.GetComponent<RectTransform>();
-        instructionRect.anchorMin = new Vector2(0.1f, 0.6f);
-        instructionRect.anchorMax = new Vector2(0.9f, 0.9f);
-        instructionRect.offsetMin = Vector2.zero;
-        instructionRect.offsetMax = Vector2.zero;
-
-        GameObject startObj = new GameObject("StartText");
-        startObj.transform.SetParent(startScreen.transform, false);
-
-        startText = startObj.AddComponent<TextMeshProUGUI>();
-        startText.text = startMessage;
-        startText.fontSize = CalculateResponsiveFontSize() * 1.2f;
-        startText.color = Color.yellow;
-        startText.alignment = TextAlignmentOptions.Center;
-        startText.fontStyle = FontStyles.Bold;
-
-        RectTransform startRect = startObj.GetComponent<RectTransform>();
-        startRect.anchorMin = new Vector2(0.1f, 0.3f);
-        startRect.anchorMax = new Vector2(0.9f, 0.5f);
-        startRect.offsetMin = Vector2.zero;
-        startRect.offsetMax = Vector2.zero;
 
         CreateContentPanelWithOutlineBorder(startScreen);
 
@@ -225,7 +193,7 @@ public class ExperimentStarter : MonoBehaviour
 
         startText = startObj.AddComponent<TextMeshProUGUI>();
         startText.text = startMessage;
-        startText.fontSize = CalculateResponsiveFontSize() * 1.2f; // Slightly larger
+        startText.fontSize = CalculateResponsiveFontSize() * 1.2f; 
         startText.color = Color.yellow;
         startText.alignment = TextAlignmentOptions.Center;
         startText.fontStyle = FontStyles.Bold;
@@ -259,7 +227,7 @@ public class ExperimentStarter : MonoBehaviour
                     float normalizedRight = topRight.x / Screen.width;
                     float normalizedTop = topRight.y / Screen.height;
 
-                    float marginConstant = 0.0f;
+                    float marginConstant = 0.005f;
 
                     float marginX = (normalizedRight - normalizedLeft) * marginConstant;
                     float marginY = (normalizedTop - normalizedBottom) * marginConstant;

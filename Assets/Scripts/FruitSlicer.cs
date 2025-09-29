@@ -117,7 +117,7 @@ public class FruitSlicer : MonoBehaviour
         activeSliceCount--;
         if(activeSliceCount <= 0)
         {
-            Debug.Log("All slices destroyed, animation complete");
+            //Debug.Log("All slices destroyed, animation complete");
             animationRunning = false;
         }
     }
